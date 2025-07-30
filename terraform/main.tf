@@ -36,13 +36,6 @@ resource "aws_instance" "web" {
   tags = {
     Name = "terra_ansi_pro"
   }
-
-(*   provisioner "local-exec" {
-    command     = "echo ${self.public_ip} > ip.txt"
-    working_dir = "${path.module}"
-  }
-}
- *)
 output "ec2_instance_ip" {
   description = "The public IP address of the EC2 instance"
   value       = aws_instance.web.public_ip
