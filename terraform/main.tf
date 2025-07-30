@@ -36,8 +36,8 @@ resource "aws_instance" "web" {
   tags = {
     Name = "terra_ansi_pro"
   }
+}
 output "ec2_instance_ip" {
   description = "The public IP address of the EC2 instance"
   value       = aws_instance.web.public_ip
-}
 }
