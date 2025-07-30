@@ -1,0 +1,40 @@
+name: Terraform EC2 Provision
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    name: Apply Terraform and Save IP
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.0
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+
+      - name: Get Public IP and Save to File
+        run: |
+          terraform output -raw ec2_instance_ip > public_ip.txt
+          echo "Public IP saved to public_ip.txt"
+
+      - name: Print Public IP
+        run: cat public_ip.txt
+
+      - name: Archive Public IP File
+        uses: actions/upload-artifact@v3
+        with:
+          name: ec2-public-ip
+          path: public_ip.txt
