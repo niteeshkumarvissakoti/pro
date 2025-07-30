@@ -21,21 +21,27 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-      - name : Terraform plan
+        working-directory: ./terraform
+    
+      - name: Terraform Plan
         run: terraform plan
+        working-directory: ./terraform
+    
       - name: Terraform Apply
         run: terraform apply -auto-approve
-
+        working-directory: ./terraform
+    
       - name: Get Public IP and Save to File
         run: |
           terraform output -raw ec2_instance_ip > public_ip.txt
           echo "Public IP saved to public_ip.txt"
-
-      - name: Print Public IP
-        run: cat public_ip.txt
-
-      - name: Archive Public IP File
-        uses: actions/upload-artifact@v4
-        with:
-          name: ec2-public-ip
-          path: public_ip.txt
+            working-directory: ./terraform
+    
+          - name: Print Public IP
+            run: cat terraform/public_ip.txt
+    
+          - name: Archive Public IP File
+            uses: actions/upload-artifact@v4
+            with:
+              name: ec2-public-ip
+              path: terraform/public_ip.txt
