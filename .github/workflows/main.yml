@@ -34,7 +34,7 @@ jobs:
         run: cat public_ip.txt
 
       - name: Archive Public IP File
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ec2-public-ip
           path: public_ip.txt
